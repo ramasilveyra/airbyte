@@ -777,7 +777,7 @@ paths:
     post:
       tags:
         - connection
-      summary: Updated a connection status
+      summary: Update a connection
       operationId: updateConnection
       requestBody:
         content:
@@ -902,6 +902,90 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/JobInfoRead"
+        "404":
+          description: Connection not found
+        "422":
+          $ref: "#/components/responses/InvalidInput"
+  /v1/transformations/create:
+    post:
+      tags:
+        - transformation
+      summary: Create a transformation pipeline attached to a connection between a source and a destination
+      operationId: createTransformations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransformationsCreate"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransformationsRead"
+        "422":
+          $ref: "#/components/responses/InvalidInput"
+  /v1/transformations/update:
+    post:
+      tags:
+        - transformation
+      summary: Update a transformation pipeline
+      operationId: updateTransformations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransformationsUpdate"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransformationsRead"
+        "422":
+          $ref: "#/components/responses/InvalidInput"
+  /v1/transformations/get:
+    post:
+      tags:
+        - transformation
+      summary: Returns transformation pipeline for a connection.
+      operationId: getTransformationsForConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConnectionIdRequestBody"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransformationsRead"
+        "404":
+          description: Connection not found
+        "422":
+          $ref: "#/components/responses/InvalidInput"
+  /v1/transformations/delete:
+    post:
+      tags:
+        - transformation
+      summary: Delete transformation pipeline for a connection.
+      operationId: deleteTransformationsForConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConnectionIdRequestBody"
+        required: true
+      responses:
+        "204":
+          description: The resource was deleted successfully.
         "404":
           description: Connection not found
         "422":
@@ -1898,6 +1982,79 @@ components:
             - days
             - weeks
             - months
+    # Transformations
+    TransformationsCreate:
+      type: object
+      required:
+        - connectionId
+        - pipeline
+      properties:
+        connectionId:
+          $ref: "#/components/schemas/ConnectionId"
+        pipeline:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransformationOperator"
+    TransformationsUpdate:
+      type: object
+      required:
+        - connectionId
+        - pipeline
+      properties:
+        connectionId:
+          $ref: "#/components/schemas/ConnectionId"
+        pipeline:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransformationOperator"
+    TransformationsRead:
+      type: object
+      required:
+        - connectionId
+        - pipeline
+      properties:
+        connectionId:
+          $ref: "#/components/schemas/ConnectionId"
+        pipeline:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransformationOperator"
+    TransformationOperator:
+      type: object
+      required:
+        - TransformationOperatorType
+      properties:
+        # Instead of this type field, we would prefer a json schema "oneOf" but unfortunately,
+        # the jsonschema2pojo does not seem to support it yet: https://github.com/joelittlejohn/jsonschema2pojo/issues/392
+        operatorType:
+          $ref: "#/components/schemas/TransformationOperatorType"
+        dbtOperator:
+          $ref: "#/components/schemas/DbtOperator"
+    NormalizationOperator:
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+    DbtOperator:
+      type: object
+      required:
+        - gitRepoUrl
+      properties:
+        gitRepoUrl:
+          type: string
+        dockerImage:
+          type: string
+        dbtArguments:
+          type: string
+    TransformationOperatorType:
+      type: string
+      enum:
+        - normalization
+        - dbt
+      # - docker
+      # - webhook
     # LOGS
     LogType:
       type: string

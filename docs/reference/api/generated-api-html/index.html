@@ -306,6 +306,13 @@ font-style: italic;
   <ul>
   <li><a href="#getSourceDefinitionSpecification"><code><span class="http-method">post</span> /v1/source_definition_specifications/get</code></a></li>
   </ul>
+  <h4><a href="#Transformation">Transformation</a></h4>
+  <ul>
+  <li><a href="#createTransformations"><code><span class="http-method">post</span> /v1/transformations/create</code></a></li>
+  <li><a href="#deleteTransformationsForConnection"><code><span class="http-method">post</span> /v1/transformations/delete</code></a></li>
+  <li><a href="#getTransformationsForConnection"><code><span class="http-method">post</span> /v1/transformations/get</code></a></li>
+  <li><a href="#updateTransformations"><code><span class="http-method">post</span> /v1/transformations/update</code></a></li>
+  </ul>
   <h4><a href="#WebBackend">WebBackend</a></h4>
   <ul>
   <li><a href="#webBackendGetConnection"><code><span class="http-method">post</span> /v1/web_backend/connections/get</code></a></li>
@@ -885,7 +892,7 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/connections/update</code></pre></div>
-    <div class="method-summary">Updated a connection status (<span class="nickname">updateConnection</span>)</div>
+    <div class="method-summary">Update a connection (<span class="nickname">updateConnection</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -3502,6 +3509,256 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <h1><a name="Transformation">Transformation</a></h1>
+  <div class="method"><a name="createTransformations"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/transformations/create</code></pre></div>
+    <div class="method-summary">Create a transformation pipeline attached to a connection between a source and a destination (<span class="nickname">createTransformations</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">TransformationsCreate <a href="#TransformationsCreate">TransformationsCreate</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#TransformationsRead">TransformationsRead</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "pipeline" : [ {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  }, {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  } ],
+  "connectionId" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        <a href="#TransformationsRead">TransformationsRead</a>
+    <h4 class="field-label">422</h4>
+    Invalid Input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="deleteTransformationsForConnection"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/transformations/delete</code></pre></div>
+    <div class="method-summary">Delete transformation pipeline for a connection. (<span class="nickname">deleteTransformationsForConnection</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">ConnectionIdRequestBody <a href="#ConnectionIdRequestBody">ConnectionIdRequestBody</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    The resource was deleted successfully.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Connection not found
+        <a href="#"></a>
+    <h4 class="field-label">422</h4>
+    Invalid Input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getTransformationsForConnection"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/transformations/get</code></pre></div>
+    <div class="method-summary">Returns transformation pipeline for a connection. (<span class="nickname">getTransformationsForConnection</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">ConnectionIdRequestBody <a href="#ConnectionIdRequestBody">ConnectionIdRequestBody</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#TransformationsRead">TransformationsRead</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "pipeline" : [ {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  }, {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  } ],
+  "connectionId" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        <a href="#TransformationsRead">TransformationsRead</a>
+    <h4 class="field-label">404</h4>
+    Connection not found
+        <a href="#"></a>
+    <h4 class="field-label">422</h4>
+    Invalid Input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateTransformations"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/transformations/update</code></pre></div>
+    <div class="method-summary">Update a transformation pipeline (<span class="nickname">updateTransformations</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">TransformationsUpdate <a href="#TransformationsUpdate">TransformationsUpdate</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#TransformationsRead">TransformationsRead</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "pipeline" : [ {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  }, {
+    "dbtOperator" : {
+      "dockerImage" : "dockerImage",
+      "dbtArguments" : "dbtArguments",
+      "gitRepoUrl" : "gitRepoUrl"
+    }
+  } ],
+  "connectionId" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        <a href="#TransformationsRead">TransformationsRead</a>
+    <h4 class="field-label">422</h4>
+    Invalid Input
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <h1><a name="WebBackend">WebBackend</a></h1>
   <div class="method"><a name="webBackendGetConnection"/>
     <div class="method-path">
@@ -4398,6 +4655,7 @@ font-style: italic;
     <li><a href="#ConnectionStatus"><code>ConnectionStatus</code> - </a></li>
     <li><a href="#ConnectionUpdate"><code>ConnectionUpdate</code> - </a></li>
     <li><a href="#DataType"><code>DataType</code> - </a></li>
+    <li><a href="#DbtOperator"><code>DbtOperator</code> - </a></li>
     <li><a href="#DestinationCoreConfig"><code>DestinationCoreConfig</code> - </a></li>
     <li><a href="#DestinationCreate"><code>DestinationCreate</code> - </a></li>
     <li><a href="#DestinationDefinitionCreate"><code>DestinationDefinitionCreate</code> - </a></li>
@@ -4425,6 +4683,7 @@ font-style: italic;
     <li><a href="#LogRead"><code>LogRead</code> - </a></li>
     <li><a href="#LogType"><code>LogType</code> - </a></li>
     <li><a href="#LogsRequestBody"><code>LogsRequestBody</code> - </a></li>
+    <li><a href="#NormalizationOperator"><code>NormalizationOperator</code> - </a></li>
     <li><a href="#Notification"><code>Notification</code> - </a></li>
     <li><a href="#NotificationRead"><code>NotificationRead</code> - </a></li>
     <li><a href="#NotificationType"><code>NotificationType</code> - </a></li>
@@ -4447,6 +4706,11 @@ font-style: italic;
     <li><a href="#SourceUpdate"><code>SourceUpdate</code> - </a></li>
     <li><a href="#SyncMode"><code>SyncMode</code> - </a></li>
     <li><a href="#SynchronousJobRead"><code>SynchronousJobRead</code> - </a></li>
+    <li><a href="#TransformationOperator"><code>TransformationOperator</code> - </a></li>
+    <li><a href="#TransformationOperatorType"><code>TransformationOperatorType</code> - </a></li>
+    <li><a href="#TransformationsCreate"><code>TransformationsCreate</code> - </a></li>
+    <li><a href="#TransformationsRead"><code>TransformationsRead</code> - </a></li>
+    <li><a href="#TransformationsUpdate"><code>TransformationsUpdate</code> - </a></li>
     <li><a href="#WbConnectionRead"><code>WbConnectionRead</code> - </a></li>
     <li><a href="#WbConnectionReadList"><code>WbConnectionReadList</code> - </a></li>
     <li><a href="#WebBackendConnectionRequestBody"><code>WebBackendConnectionRequestBody</code> - </a></li>
@@ -4609,6 +4873,15 @@ font-style: italic;
     <div class='model-description'></div>
     <div class="field-items">
           </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="DbtOperator"><code>DbtOperator</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">gitRepoUrl </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">dockerImage (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">dbtArguments (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="DestinationCoreConfig"><code>DestinationCoreConfig</code> - </a> <a class="up" href="#__Models">Up</a></h3>
@@ -4836,6 +5109,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="NormalizationOperator"><code>NormalizationOperator</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="Notification"><code>Notification</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -5025,6 +5305,44 @@ font-style: italic;
 <div class="param">endedAt </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">succeeded </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
 <div class="param">logs (optional)</div><div class="param-desc"><span class="param-type"><a href="#LogRead">LogRead</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TransformationOperator"><code>TransformationOperator</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">operatorType (optional)</div><div class="param-desc"><span class="param-type"><a href="#TransformationOperatorType">TransformationOperatorType</a></span>  </div>
+<div class="param">dbtOperator (optional)</div><div class="param-desc"><span class="param-type"><a href="#DbtOperator">DbtOperator</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TransformationOperatorType"><code>TransformationOperatorType</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TransformationsCreate"><code>TransformationsCreate</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">connectionId </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">pipeline </div><div class="param-desc"><span class="param-type"><a href="#TransformationOperator">array[TransformationOperator]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TransformationsRead"><code>TransformationsRead</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">connectionId </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">pipeline </div><div class="param-desc"><span class="param-type"><a href="#TransformationOperator">array[TransformationOperator]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TransformationsUpdate"><code>TransformationsUpdate</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">connectionId </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">pipeline </div><div class="param-desc"><span class="param-type"><a href="#TransformationOperator">array[TransformationOperator]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

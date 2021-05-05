@@ -67,6 +67,9 @@ import io.airbyte.api.model.SourceRead;
 import io.airbyte.api.model.SourceReadList;
 import io.airbyte.api.model.SourceRecreate;
 import io.airbyte.api.model.SourceUpdate;
+import io.airbyte.api.model.TransformationsCreate;
+import io.airbyte.api.model.TransformationsRead;
+import io.airbyte.api.model.TransformationsUpdate;
 import io.airbyte.api.model.WbConnectionRead;
 import io.airbyte.api.model.WbConnectionReadList;
 import io.airbyte.api.model.WebBackendConnectionRequestBody;
@@ -96,6 +99,7 @@ import io.airbyte.server.handlers.OpenApiConfigHandler;
 import io.airbyte.server.handlers.SchedulerHandler;
 import io.airbyte.server.handlers.SourceDefinitionsHandler;
 import io.airbyte.server.handlers.SourceHandler;
+import io.airbyte.server.handlers.TransformationsHandler;
 import io.airbyte.server.handlers.WebBackendConnectionsHandler;
 import io.airbyte.server.handlers.WebBackendDestinationHandler;
 import io.airbyte.server.handlers.WebBackendSourceHandler;
@@ -118,6 +122,7 @@ public class ConfigurationApi implements io.airbyte.api.V1Api {
   private final DestinationDefinitionsHandler destinationDefinitionsHandler;
   private final DestinationHandler destinationHandler;
   private final ConnectionsHandler connectionsHandler;
+  private final TransformationsHandler transformationsHandler;
   private final SchedulerHandler schedulerHandler;
   private final JobHistoryHandler jobHistoryHandler;
   private final WebBackendConnectionsHandler webBackendConnectionsHandler;
@@ -152,6 +157,7 @@ public class ConfigurationApi implements io.airbyte.api.V1Api {
     final DockerImageValidator dockerImageValidator = new DockerImageValidator(synchronousSchedulerClient);
     sourceDefinitionsHandler = new SourceDefinitionsHandler(configRepository, dockerImageValidator, synchronousSchedulerClient);
     connectionsHandler = new ConnectionsHandler(configRepository);
+    transformationsHandler = new TransformationsHandler(configRepository);
     destinationDefinitionsHandler = new DestinationDefinitionsHandler(configRepository, dockerImageValidator, synchronousSchedulerClient);
     destinationHandler = new DestinationHandler(configRepository, schemaValidator, specFetcher, connectionsHandler);
     sourceHandler = new SourceHandler(configRepository, schemaValidator, specFetcher, connectionsHandler);
@@ -240,6 +246,7 @@ public class ConfigurationApi implements io.airbyte.api.V1Api {
   public SourceDefinitionSpecificationRead getSourceDefinitionSpecification(@Valid SourceDefinitionIdRequestBody sourceDefinitionIdRequestBody) {
     return execute(() -> schedulerHandler.getSourceDefinitionSpecification(sourceDefinitionIdRequestBody));
   }
+
   // SOURCE IMPLEMENTATION
 
   @Override
@@ -387,7 +394,6 @@ public class ConfigurationApi implements io.airbyte.api.V1Api {
       connectionsHandler.deleteConnection(connectionIdRequestBody);
       return null;
     });
-
   }
 
   @Override
@@ -398,6 +404,31 @@ public class ConfigurationApi implements io.airbyte.api.V1Api {
   @Override
   public JobInfoRead resetConnection(@Valid ConnectionIdRequestBody connectionIdRequestBody) {
     return execute(() -> schedulerHandler.resetConnection(connectionIdRequestBody));
+  }
+
+  // TRANSFORMATIONS
+
+  @Override
+  public TransformationsRead createTransformations(@Valid TransformationsCreate transformationsCreate) {
+    return execute(() -> transformationsHandler.createTransformations(transformationsCreate));
+  }
+
+  @Override
+  public void deleteTransformationsForConnection(ConnectionIdRequestBody connectionIdRequestBody) {
+    execute(() -> {
+      transformationsHandler.deleteTransformationsForConnection(connectionIdRequestBody);
+      return null;
+    });
+  }
+
+  @Override
+  public TransformationsRead getTransformationsForConnection(ConnectionIdRequestBody connectionIdRequestBody) {
+    return execute(() -> transformationsHandler.getTransformationsForConnection(connectionIdRequestBody));
+  }
+
+  @Override
+  public TransformationsRead updateTransformations(TransformationsUpdate transformationsUpdate) {
+    return execute(() -> transformationsHandler.updateTransformations(transformationsUpdate));
   }
 
   // SCHEDULER
